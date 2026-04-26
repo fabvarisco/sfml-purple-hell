@@ -1,7 +1,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "SFML\Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 #include "Item.h"
 #include <fstream>
