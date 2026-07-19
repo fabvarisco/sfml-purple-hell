@@ -1,6 +1,6 @@
-Centwy mage 74 25 2
+slot slot 0 0 0
 joao mage 10000 1000 1
-Cyne demonhunter 93 27 2
+slot slot 0 0 0
 joao mage 10000 1000 1
 Centwy mage 43 11 0
 Centwy mage 43 11 0
