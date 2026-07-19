@@ -22,7 +22,6 @@ class BattleScene :
 protected:
 
 	Player * player;
-	AI* ai;
 
 	sf::Font font;
 	sf::Text infoText;

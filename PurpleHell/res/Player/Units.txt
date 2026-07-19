@@ -1,10 +1,10 @@
-slot slot 0 0 0
+Centwy mage 74 25 2
 slot slot 0 0 0
 slot slot 0 0 0
 joao mage 10000 1000 1
 Centwy mage 43 11 0
 Centwy mage 43 11 0
-Centwy mage 43 11 0
+slot slot 0 0 0
 Centwy mage 43 11 0
 name mage 25 2 5
 name mage 25 5 2

@@ -48,7 +48,7 @@ void AI::updateEnemies(sf::Vector2f mousePos, const float& dt)
 void AI::renderEnemies(sf::RenderTarget* target)
 {
 	for (int i = 0; i < this->maxUnits; i++) {
-		if (this->team[i]->getHp() > 0) {
+		if (this->team[i] && this->team[i]->getHp() > 0) {
 			this->team[i]->render(target);
 		}
 	}
@@ -79,7 +79,7 @@ bool AI::selectedEnemy()
 Enemy* AI::getEnemy()
 {
 	for (int i = 0; i < this->maxUnits; i++) {
-		if (team[i]->getSelected()) {
+		if (team[i] && team[i]->getSelected()) {
 			return team[i];
 		}
 	}
@@ -176,12 +176,14 @@ void AI::ArquivoEnemies(std::ifstream& ifsEnemies, int i)
 		{
 
 			ifsEnemies >> name >> hp >> power;
-			sf::Texture* tex;
-			tex = new sf::Texture();
-			tex->loadFromFile("res/img/AI/" + name + ".png");
-			this->team[i] = (new Enemy(0, 0, name, hp, power, tex));
-			i++;
 
+			if (name != " " && i < this->maxUnits) {
+				sf::Texture* tex;
+				tex = new sf::Texture();
+				tex->loadFromFile("res/img/AI/" + name + ".png");
+				this->team[i] = (new Enemy(0, 0, name, hp, power, tex));
+				i++;
+			}
 			ArquivoEnemies(ifsEnemies, i);
 		}
 		else {

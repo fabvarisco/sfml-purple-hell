@@ -11,7 +11,6 @@ private:
 	static const int maxUnits = 3;
 	Hero* team[maxUnits];
 	EquipedItems* equipedItems;
-	Units* units;
 	bool selected;
 	bool clear;
 
@@ -24,7 +23,7 @@ private:
 	void initPlayerInfo();
 	void initHeroes();
 	void initEquipedItems();
-	//Arquivos
+	//Files
 	void heroesFile(std::ifstream& ifsHeroes, int i);
 	void infoFile(std::ifstream& ifsHeroes, int i);
 

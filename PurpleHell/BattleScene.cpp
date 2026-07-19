@@ -115,8 +115,10 @@ BattleScene::BattleScene(sf::RenderWindow* window, std::stack<Scene*>* scenes, i
 }
 BattleScene::~BattleScene()
 {
-	//delete this->player;
-	delete this->ai;
+	while (!this->ais.empty()) {
+		delete this->ais.front();
+		this->ais.pop();
+	}
 	for (auto& it : this->buttons) {
 		delete it;
 	}
@@ -352,7 +354,6 @@ void BattleScene::enemyTurn()
 	}
 	else {
 		if (this->enemyTurnIndex == 0) {
-			//enemy Turn start
 			this->infoText.setString(" - TURN - \n- ENEMY -");
 			this->enemyTurnIndex++;
 		}

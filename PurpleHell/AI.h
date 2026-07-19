@@ -11,7 +11,7 @@ private:
 	static const int maxUnits = 5;
 	//sf::Texture* t;
 
-	Enemy* team[maxUnits];
+	Enemy* team[maxUnits] = {};
 	//Arquivos
 	void ArquivoEnemies(std::ifstream &, int);
 

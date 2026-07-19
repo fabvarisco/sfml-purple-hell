@@ -1,3 +1,3 @@
-Centwy mage 74 25 2
+Centwy mage 43 11 0
 Cyne demonhunter 93 27 2
 joao mage 10000 1000 1

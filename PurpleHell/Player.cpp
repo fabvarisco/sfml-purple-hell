@@ -12,7 +12,6 @@ Player::Player()
 Player::~Player()
 {
 	delete this->equipedItems;
-	delete this->units;
 
 	for (int i = 0; i < this->maxUnits; i++) {
 		delete this->team[i];
@@ -353,12 +352,14 @@ void Player::heroesFile(std::ifstream& ifsHeroes, int i)
 		if (!ifsHeroes.eof())
 		{
 			ifsHeroes >> name >> job >> hp >> power >> spell;
-			sf::Texture* tex;
-			tex = new sf::Texture();
-			tex->loadFromFile("res/img/Player/" + job + ".png");
-			this->team[i] = (new Hero(0, 0, name, job, hp, power, spell, tex));
-			i++;
 
+			if (name != " " && i < this->maxUnits) {
+				sf::Texture* tex;
+				tex = new sf::Texture();
+				tex->loadFromFile("res/img/Player/" + job + ".png");
+				this->team[i] = (new Hero(0, 0, name, job, hp, power, spell, tex));
+				i++;
+			}
 			heroesFile(ifsHeroes, i);
 		}
 		else {
