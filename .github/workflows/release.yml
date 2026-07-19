@@ -56,6 +56,9 @@ jobs:
           else
             cp build/PurpleHell stage/PurpleHell/
           fi
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            cp -R build/_deps/sfml-src/extlibs/libs-osx/Frameworks stage/PurpleHell/Frameworks
+          fi
           cp -r PurpleHell/res stage/PurpleHell/res
 
           cd stage

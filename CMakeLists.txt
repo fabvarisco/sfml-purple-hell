@@ -19,3 +19,9 @@ add_executable(PurpleHell ${PURPLEHELL_SRC})
 find_package(Threads REQUIRED)
 target_link_libraries(PurpleHell PRIVATE
     sfml-graphics sfml-window sfml-audio sfml-network sfml-system Threads::Threads)
+
+if(APPLE)
+    # extlibs da SFML tem install name @rpath/../Frameworks/...; com este rpath
+    # elas resolvem para um diretorio Frameworks/ ao lado do executavel
+    set_target_properties(PurpleHell PROPERTIES BUILD_RPATH "@executable_path/Frameworks")
+endif()
