@@ -58,7 +58,7 @@ void Player::renderActions(sf::RenderTarget* target)
 	}
 }
 
-void Player::update(sf::Vector2f mousePos, const float& dt)
+void Player::update(sf::Vector2f mousePos, const float& dt, bool deselect)
 {
 
 	for (int i = 0; i < this->maxUnits; i++) {
@@ -67,8 +67,8 @@ void Player::update(sf::Vector2f mousePos, const float& dt)
 				if (this->team[i]->getSprite()->getGlobalBounds().contains(mousePos) && this->team[i]->getName() != "slot") {
 					this->team[i]->setSelected(true);
 				}
-				else {
-					//this->team[i]->setSelected(false);
+				else if (deselect) {
+					this->team[i]->setSelected(false);
 				}
 			}
 			if (this->team[i]->GetSpell()->GetIsPlaying()) {

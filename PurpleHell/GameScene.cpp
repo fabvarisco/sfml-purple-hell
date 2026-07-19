@@ -145,7 +145,7 @@ void GameScene::update(const float& dt)
 	this->updateInput(dt);
 	this->updateButtons();
 
-	this->player->update(this->mousePosView, dt);
+	this->player->update(this->mousePosView, dt, true);
 	this->player->getEquipedItems()->updateEquipedItems(this->mousePosView, dt);
 	this->player->MenuPosition();
 

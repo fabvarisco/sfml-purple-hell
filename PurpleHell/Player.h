@@ -33,7 +33,7 @@ public:
 	virtual ~Player();
 	void render(sf::RenderTarget* target);
 	void renderActions(sf::RenderTarget* target);
-	void update(sf::Vector2f mousePos, const float& dt);
+	void update(sf::Vector2f mousePos, const float& dt, bool deselect = false);
 	void battlePosition();
 	void setTeamToTrue();
 	void checkDead();
