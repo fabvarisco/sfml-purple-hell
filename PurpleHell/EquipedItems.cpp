@@ -40,7 +40,7 @@ void EquipedItems::renderActions(sf::RenderTarget* target)
 	}
 }
 
-void EquipedItems::updateEquipedItems(sf::Vector2f mousePos, const float& dt)
+void EquipedItems::updateEquipedItems(sf::Vector2f mousePos, const float& dt, bool deselect)
 {
 
 	for (int i = 0; i < this->maxItems; i++) {
@@ -50,8 +50,9 @@ void EquipedItems::updateEquipedItems(sf::Vector2f mousePos, const float& dt)
 				if (this->items[i]->getSprite()->getGlobalBounds().contains(mousePos) && this->items[i]->getName() != "slot") {
 					this->items[i]->setSelected(true);
 				}
-				else {
-					//this->items[i]->setSelected(false);
+				else if (deselect) {
+					//na batalha a selecao precisa persistir ate o clique no botao ITEM
+					this->items[i]->setSelected(false);
 				}
 			}
 			if (this->items[i]->GetAction()->GetIsPlaying()) {

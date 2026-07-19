@@ -146,7 +146,7 @@ void GameScene::update(const float& dt)
 	this->updateButtons();
 
 	this->player->update(this->mousePosView, dt, true);
-	this->player->getEquipedItems()->updateEquipedItems(this->mousePosView, dt);
+	this->player->getEquipedItems()->updateEquipedItems(this->mousePosView, dt, true);
 	this->player->MenuPosition();
 
 	if (this->texts[2].getString() == "SHOP") {

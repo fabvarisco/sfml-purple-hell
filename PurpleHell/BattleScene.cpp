@@ -207,9 +207,10 @@ void BattleScene::update(const float& dt)
 {
 	this->updateFade(dt);
 	this->updateMousePosition();
-	this->player->getEquipedItems()->updateEquipedItems(mousePosView, dt);
 	this->updateTexts();
 	this->updateButtons();
+	//depois dos botoes: no frame do clique em ITEM o item ainda esta selecionado
+	this->player->getEquipedItems()->updateEquipedItems(mousePosView, dt, true);
 
 	this->player->update(mousePosView, dt);
 
