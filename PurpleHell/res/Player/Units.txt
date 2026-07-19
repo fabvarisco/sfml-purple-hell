@@ -1,5 +1,5 @@
 slot slot 0 0 0
-joao mage 10000 1000 1
+slot slot 0 0 0
 slot slot 0 0 0
 joao mage 10000 1000 1
 Centwy mage 43 11 0

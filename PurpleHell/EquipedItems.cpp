@@ -122,6 +122,7 @@ int EquipedItems::UnitNumber(Entity* item)
 			return i;
 		}
 	}
+	return -1;
 }
 bool EquipedItems::canEquip()
 {
@@ -163,6 +164,7 @@ int EquipedItems::getItemId()
 			}
 		}
 	}
+	return -1;
 }
 //Arquivos
 void EquipedItems::ArquivoEquiped(std::ifstream& ifsEquipedItems, int i)

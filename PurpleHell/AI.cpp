@@ -83,7 +83,7 @@ Enemy* AI::getEnemy()
 			return team[i];
 		}
 	}
-
+	return nullptr;
 }
 
 Enemy* AI::getTeam(int i)

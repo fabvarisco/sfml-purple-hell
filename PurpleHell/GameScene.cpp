@@ -348,7 +348,7 @@ void GameScene::renderButtons(sf::RenderTarget* target)
 	if (this->texts[2].getString() == "SHOP") {
 		this->buttonsShop[1]->render(target);
 	}
-	if (this->texts[2].getString() == "SHOP" && this->shop->GetSelectedHero() || this->shop->GetSelectedItem()) {
+	if (this->texts[2].getString() == "SHOP" && (this->shop->GetSelectedHero() || this->shop->GetSelectedItem())) {
 		this->buttonsShop[0]->render(target);
 		if (this->shop->GetSelectedHero())this->showMenuInfo(&this->textInfoMenu, this->shop->GetSelectedHero(), { 180, 72 }, target);
 		if (this->shop->GetSelectedItem())this->showMenuInfo(&this->textInfoMenu, this->shop->GetSelectedItem(), { 180, 72 }, target);

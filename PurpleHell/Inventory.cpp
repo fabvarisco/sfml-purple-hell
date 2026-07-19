@@ -158,12 +158,10 @@ void Inventory::removeItem(Item* inventoryItem)
 }
 int Inventory::inventoryNumber()
 {
-	int count = 0;
 	for (int i = 0; i < this->maxItems; i++) {
 		if (this->items[i]->getSelected()) {
 			return i;
 		}
-		count++;
 	}
-
+	return -1;
 }

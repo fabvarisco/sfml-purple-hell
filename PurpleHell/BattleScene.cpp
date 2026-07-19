@@ -285,8 +285,8 @@ void BattleScene::render(sf::RenderTarget* target)
 void BattleScene::renderTexts(sf::RenderTarget* target)
 {
 	target->draw(infoText);
-	for (int i = 0; i < battleTexts.size(); i++) {
-		target->draw(battleTexts[i]);
+	for (auto& it : this->battleTexts) {
+		target->draw(it);
 	}
 	for (auto& it : this->battleInfo) {
 		target->draw(it);

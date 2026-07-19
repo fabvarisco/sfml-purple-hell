@@ -1,4 +1,4 @@
-#ifndef EQUIPEITEMS_H
+#ifndef EQUIPEDITEMS_H
 #define EQUIPEDITEMS_H
 
 #include "Inventory.h"

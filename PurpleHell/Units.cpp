@@ -28,7 +28,6 @@ void Units::renderUnits(sf::RenderTarget* target)
 
 void Units::updateUnits(sf::Vector2f mousePos,const float &dt)
 {
-	int count = 0;
 	for (int i = 0; i < this->maxUnitsInventory; i++) {
 		if (this->heroes[i]) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -149,6 +148,7 @@ int Units::UnitNumber()
 				}
 		}
 	}
+	return -1;
 }
 //Arquivos
 void Units::ArquivoUnits(std::ifstream &ifsUnits, int i)

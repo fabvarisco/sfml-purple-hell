@@ -339,6 +339,7 @@ int Player::UnitNumber(Entity* hero)
 			return i;
 		}
 	}
+	return -1;
 }
 //Arquivos
 
