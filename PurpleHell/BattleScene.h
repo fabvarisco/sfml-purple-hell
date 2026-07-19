@@ -25,6 +25,7 @@ protected:
 
 	sf::Font font;
 	sf::Text infoText;
+	sf::Text itemInfoText;
 	sf::Sprite background;
 	sf::Texture textureBackground;
 	sf::Texture hudTexture;

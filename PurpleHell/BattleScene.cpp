@@ -37,6 +37,11 @@ void BattleScene::initTexts()
 
 	this->infoText = turnText;
 
+	//Item selecionado
+	this->itemInfoText.setFont(this->font);
+	this->itemInfoText.setCharacterSize(10);
+	this->itemInfoText.setPosition(10, 95);
+
 	//Player/Enemy
 	sf::Text playerTeamSetting;
 	sf::Text enemyTeamSetting;
@@ -414,6 +419,25 @@ void BattleScene::renderButtons(sf::RenderTarget* target)
 
 	if (turn && this->player->getEquipedItems()->getItem()) {
 		this->buttons[3]->render(target);
+
+		Item* item = this->player->getEquipedItems()->getItem();
+		std::string desc;
+		switch (item->getSpecial())
+		{
+		case Item::item_potion:
+			desc = "Heals +" + std::to_string(item->getPower()) + " HP";
+			break;
+		case Item::item_knife:
+		case Item::item_axe:
+		case Item::item_sword:
+		case Item::item_MagicAxe:
+			desc = "+" + std::to_string(item->getPower()) + " POWER";
+			break;
+		default:
+			break;
+		}
+		this->itemInfoText.setString(item->getName() + ":\n" + desc);
+		target->draw(this->itemInfoText);
 	}
 }
 
