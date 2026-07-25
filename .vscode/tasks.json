@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug",
+            "type": "shell",
+            "command": "nix-shell",
+            "args": [
+                "${workspaceFolder}/shell.nix",
+                "--run",
+                "cd PurpleHell && make CXXFLAGS=\"-std=c++17 -Wall -g -Og\""
+            ],
+            "group": { "kind": "build", "isDefault": true },
+            "presentation": { "reveal": "silent", "panel": "shared" },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "build-release",
+            "type": "shell",
+            "command": "nix-shell",
+            "args": [
+                "${workspaceFolder}/shell.nix",
+                "--run",
+                "cd PurpleHell && make"
+            ],
+            "group": "build",
+            "presentation": { "reveal": "always", "panel": "shared" },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "nix-shell",
+            "args": [
+                "${workspaceFolder}/shell.nix",
+                "--run",
+                "cd PurpleHell && make clean"
+            ],
+            "group": "build",
+            "presentation": { "reveal": "always", "panel": "shared" },
+            "problemMatcher": []
+        }
+    ]
+}
