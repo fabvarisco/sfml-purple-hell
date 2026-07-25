@@ -9,6 +9,7 @@ class Especial : public Entity
 private:
 	bool shouldDestroy = true;
 	bool isPlaying = false;
+	bool aoe = false;
 	int offsetx = 0;
 	int offsety = 0;
 	std::string description;
@@ -39,6 +40,7 @@ public:
 
 	int GetOffsetX();
 	int GetOffsetY();
+	bool isAOE();
 };
 
 

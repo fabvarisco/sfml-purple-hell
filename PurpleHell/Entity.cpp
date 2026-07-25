@@ -35,7 +35,7 @@ void Entity::createAnimationComponent(sf::Texture & texture_sheet)
 
 const bool & Entity::getSelected() const
 {
-	// TODO: inserir instrução de retorno aqui
+	// TODO: inserir instruï¿½ï¿½o de retorno aqui
 	return this->selected;
 }
 
@@ -153,5 +153,25 @@ void Entity::setSelected(bool value)
 void Entity::SetSpecial(int value)
 {
 	this->special = value;
+}
+
+void Entity::setPoisonedTurns(int turns)
+{
+	this->poisonedTurns = turns;
+}
+
+void Entity::setStunned(bool value)
+{
+	this->stunned = value;
+}
+
+int Entity::getPoisonedTurns()
+{
+	return this->poisonedTurns;
+}
+
+bool Entity::getStunned()
+{
+	return this->stunned;
 }
 

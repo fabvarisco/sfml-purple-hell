@@ -333,6 +333,45 @@ void GameScene::renderButtons(sf::RenderTarget* target)
 	if (this->texts[2].getString() == "INVENTORY" && this->inventory->getItem()) {
 		this->buttonsItems[0]->render(target);
 		this->buttonsItems[1]->render(target);
+		Item* item = this->inventory->getItem();
+		std::string desc;
+		switch (item->getSpecial()) {
+		case Item::item_potion:
+			desc = "Heals +" + std::to_string(item->getPower()) + " HP";
+			break;
+		case Item::item_knife:
+		case Item::item_axe:
+		case Item::item_sword:
+		case Item::item_MagicAxe:
+			desc = "+" + std::to_string(item->getPower()) + " POWER";
+			break;
+		default:
+			break;
+		}
+		this->textInfoMenu.setPosition(180, 72);
+		this->textInfoMenu.setString(item->getName() + "\n" + desc);
+		target->draw(this->textInfoMenu);
+	}
+
+	if (this->player->getEquipedItems()->getItem()) {
+		Item* equipedItem = this->player->getEquipedItems()->getItem();
+		std::string equipedDesc;
+		switch (equipedItem->getSpecial()) {
+		case Item::item_potion:
+			equipedDesc = "Heals +" + std::to_string(equipedItem->getPower()) + " HP";
+			break;
+		case Item::item_knife:
+		case Item::item_axe:
+		case Item::item_sword:
+		case Item::item_MagicAxe:
+			equipedDesc = "+" + std::to_string(equipedItem->getPower()) + " POWER";
+			break;
+		default:
+			break;
+		}
+		this->textInfoMenu.setPosition(180, 72);
+		this->textInfoMenu.setString(equipedItem->getName() + "\n" + equipedDesc);
+		target->draw(this->textInfoMenu);
 	}
 
 	if (this->texts[2].getString() == "INVENTORY" && this->player->getEquipedItems()->getItem()) {

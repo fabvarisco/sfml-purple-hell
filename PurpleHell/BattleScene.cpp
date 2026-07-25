@@ -37,16 +37,13 @@ void BattleScene::initTexts()
 
 	this->infoText = turnText;
 
-	//Item selecionado
 	this->itemInfoText.setFont(this->font);
-	this->itemInfoText.setCharacterSize(10);
-	this->itemInfoText.setPosition(10, 95);
+	this->itemInfoText.setCharacterSize(18);
+	this->itemInfoText.setPosition(34, 65);
 
 	//Player/Enemy
 	sf::Text playerTeamSetting;
 	sf::Text enemyTeamSetting;
-
-
 
 	//Player Team
 	playerTeamSetting.setFont(this->font);
@@ -368,8 +365,29 @@ void BattleScene::enemyTurn()
 			this->enemyTurnIndex++;
 		}
 		else if (this->enemyTurnIndex == 2) {
-			this->enemyAttack();
+			Enemy* current = this->ais.front()->getTeam(this->enemyIndex);
 
+			if (current->getPoisonedTurns() > 0) {
+				int poisonDmg = 5;
+				current->setHp(current->getHp() - poisonDmg);
+				this->battleText(1, current, "POISON -" + std::to_string(poisonDmg));
+				current->setPoisonedTurns(current->getPoisonedTurns() - 1);
+				if (current->getHp() <= 0) {
+					current->setPlayed(true);
+					this->enemyIndex++;
+					return;
+				}
+			}
+
+			if (current->getStunned()) {
+				current->setStunned(false);
+				current->setPlayed(true);
+				this->battleText(1, current, "STUNNED");
+				this->enemyIndex++;
+				return;
+			}
+
+			this->enemyAttack();
 		}
 	}
 
@@ -525,10 +543,40 @@ void BattleScene::playerAttack()
 
 void BattleScene::playerSpecial()
 {
-	Hero* player = this->player->getHero(this->playerIndex);
+	Hero* hero = this->player->getHero(this->playerIndex);
+
+	if (hero->GetSpell()->isAOE()) {
+		bool first = true;
+		for (int i = 0; i < 5; i++) {
+			Enemy* e = this->ais.front()->getTeam(i);
+			if (e && e->getHp() > 0 && e->getName() != "slot") {
+				if (first) {
+					hero->Special(e);
+					this->battleText(0, e, "- " + std::to_string(hero->getPower() * 2));
+					first = false;
+				} else {
+					e->setDamage(hero->getPower() * 2);
+				}
+			}
+		}
+		this->playerIndex++;
+		return;
+	}
+
 	Enemy* enemy = this->ais.front()->getEnemy();
-	player->Special(enemy);
-	this->battleText(0, enemy, "- " + std::to_string(player->getPower() *2));
+	std::string spellName = hero->GetSpell()->getName();
+	hero->Special(enemy);
+
+	if (spellName == "Kick") {
+		this->battleText(0, enemy, "STUNNED");
+	} else if (spellName == "Death Touch") {
+		this->battleText(0, enemy, "INSTANT KILL");
+	} else if (spellName == "Steal") {
+		this->player->updateGold(15);
+		this->battleText(0, enemy, "- " + std::to_string(hero->getPower() * 2));
+	} else {
+		this->battleText(0, enemy, "- " + std::to_string(hero->getPower() * 2));
+	}
 	this->playerIndex++;
 }
 

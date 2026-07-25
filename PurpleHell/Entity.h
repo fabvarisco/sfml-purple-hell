@@ -35,6 +35,8 @@ protected:
 	bool selected = false;
 	bool played = false;
 	bool canUseSpecial = true;
+	int poisonedTurns = 0;
+	bool stunned = false;
 	AnimationComponent* animationComponent;
 
 public:
@@ -75,6 +77,10 @@ public:
 	void setPlayed(bool value);
 	void setSelected(bool value);
 	void SetSpecial(int value);
+	void setPoisonedTurns(int turns);
+	void setStunned(bool value);
+	int getPoisonedTurns();
+	bool getStunned();
 };
 
 #endif // ! ENTITY_H

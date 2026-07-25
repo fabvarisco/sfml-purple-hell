@@ -10,8 +10,8 @@ void Especial::specialInit()
 		case 1:
 			this->name = "thunder";
 			this->description = "Deals damage to all enemies.";
+			this->aoe = true;
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48);
-			
 			break;
 		case 2:
 			this->name = "Fireball";
@@ -45,11 +45,11 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Double slash";
-			this->description = "Deals .";
+			this->description = "Deals double damage to one enemy.";
 			break;
 		case 2:
 			this->name = "Rage";
-			this->description = "Deals x4 more damage";
+			this->description = "Deals x4 more damage to one enemy.";
 			break;
 		case 3:
 			this->name = "Kick";
@@ -62,7 +62,7 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Scars slash";
-			this->description = "Deals ";
+			this->description = "Deals x3 damage to one enemy.";
 			break;
 		case 2:
 			this->name = "Drain Blood";
@@ -96,7 +96,7 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Double slash";
-			this->description = "Deals ";
+			this->description = "Deals double damage to one enemy.";
 			break;
 		case 2:
 			this->name = "Poison Dagger";
@@ -183,6 +183,7 @@ bool Especial::GetIsPlaying()
 
 void Especial::animationDone()
 {
+	if (!this->animationComponent) { this->isPlaying = false; return; }
 	std::string animation = this->name + "_animation";
 	if (this->animationComponent->isDone(animation)) {
 		this->isPlaying = false;
@@ -197,6 +198,7 @@ void Especial::SetDescription(std::string text)
 void Especial::updateAnimation(const float& dt)
 {
 	if (this->isPlaying) {
+		if (!this->animationComponent) { this->isPlaying = false; return; }
 		std::string animation = this->name + "_animation";
 		this->animationComponent->play(animation, dt);
 		if (this->animationComponent->isDone(animation)) {
@@ -218,6 +220,11 @@ int Especial::GetOffsetX()
 int Especial::GetOffsetY()
 {
 	return this->offsety;
+}
+
+bool Especial::isAOE()
+{
+	return this->aoe;
 }
 
 
