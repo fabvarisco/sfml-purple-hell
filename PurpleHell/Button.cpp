@@ -42,7 +42,7 @@ Button::~Button()
 
 const bool Button::isPressed() const
 {
-	if (this->state == 2) {
+	if (!this->disabled && this->state == 2) {
 		return true;
 	}
 	else {
@@ -50,9 +50,18 @@ const bool Button::isPressed() const
 	}
 }
 
+void Button::setDisabled(bool d)
+{
+	this->disabled = d;
+}
 
 void Button::update(sf::Vector2f mousePos)
 {
+	if (this->disabled) {
+		this->state = 0;
+		this->sprite.setColor(sf::Color(80, 80, 80));
+		return;
+	}
 	this->state = 0;
 	if (this->sprite.getGlobalBounds().contains(mousePos)) {
 		state = 1;

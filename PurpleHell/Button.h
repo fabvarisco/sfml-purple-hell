@@ -16,6 +16,7 @@ class Button
 {
 private:
 	int state;
+	bool disabled = false;
 	//sf::RectangleShape shape;
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -38,6 +39,8 @@ public:
 	void render(sf::RenderTarget *target);
 	void update(sf::Vector2f mousePos);
 	void SetText(std::string text);
+
+	void setDisabled(bool d);
 
 	//accessors
 	const bool isPressed() const;

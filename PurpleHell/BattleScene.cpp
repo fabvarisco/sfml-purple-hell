@@ -129,6 +129,9 @@ BattleScene::~BattleScene()
 //Updates
 void BattleScene::updateButtons()
 {
+	Hero* activeHero = this->player->getHero();
+	this->buttons[2]->setDisabled(!activeHero || !activeHero->CanUseEspecial());
+
 	for (auto& it : this->buttons) {
 		it->update(this->mousePosView);
 	}
@@ -222,7 +225,6 @@ void BattleScene::update(const float& dt)
 		
 		if (this->ais.front()->checkDeads()) {
 			this->player->setTeamToTrue();
-			this->player->setSpecialToTrue();
 			this->playerIndex = 0;
 			this->ais.pop();
 		}
@@ -556,6 +558,10 @@ void BattleScene::playerSpecial()
 					first = false;
 				} else {
 					e->setDamage(hero->getPower() * 2);
+					hero->GetSpell()->addAOEPosition(
+						e->getPosition().x,
+						e->getPosition().y + hero->GetSpell()->GetOffsetY()
+					);
 				}
 			}
 		}

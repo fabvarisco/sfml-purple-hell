@@ -16,10 +16,12 @@ void Especial::specialInit()
 		case 2:
 			this->name = "Fireball";
 			this->description = "Deals damage to one enemy and burn it";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Waterfall";
 			this->description = "Deals extra damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -29,14 +31,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Steal";
 			this->description = "Deals damage to one enemy and steal gold";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Poison Dagger";
 			this->description = "Deals damage to one enemy with a poison knife";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun an enemy";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -46,14 +51,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Double slash";
 			this->description = "Deals double damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Rage";
 			this->description = "Deals x4 more damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun an enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -63,14 +71,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Scars slash";
 			this->description = "Deals x3 damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Drain Blood";
 			this->description = "Deals damage to one enemy with a poison knife.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Punch";
 			this->description = "Deals damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -80,14 +91,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Drain Life";
 			this->description = "Deals damage to one enemy and heal half of the damage.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Death Touch";
 			this->description = "Instant kill an enemy but you lost half of the life.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Curse";
 			this->description = "Deals curse damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -97,14 +111,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Double slash";
 			this->description = "Deals double damage to one enemy.";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Poison Dagger";
 			this->description = "Deals damage to one enemy with a poison knife";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun an enemy";
+			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
 	}
@@ -173,7 +190,26 @@ void Especial::Special(Entity* entity)
 
 void Especial::SetIsPlaying(bool value)
 {
-	 this->isPlaying = value;
+	this->isPlaying = value;
+	if (!value)
+		this->extraAOEPositions.clear();
+}
+
+void Especial::addAOEPosition(float x, float y)
+{
+	this->extraAOEPositions.push_back({ x, y });
+}
+
+void Especial::render(sf::RenderTarget* target)
+{
+	if (!this->sprite) return;
+	target->draw(*this->sprite);
+	sf::Vector2f original = this->sprite->getPosition();
+	for (const auto& pos : this->extraAOEPositions) {
+		this->sprite->setPosition(pos);
+		target->draw(*this->sprite);
+	}
+	this->sprite->setPosition(original);
 }
 
 bool Especial::GetIsPlaying()
@@ -228,16 +264,16 @@ bool Especial::isAOE()
 }
 
 
-void Especial::createAnimation(int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height, int offsetx, int offsety)
+void Especial::createAnimation(int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height, int offsetx, int offsety, const std::string& textureName)
 {
 	this->offsetx = offsetx;
 	this->offsety = offsety;
 	this->texture = new sf::Texture();
-	this->texture->loadFromFile("res/img/Effects/" + this->name + ".png");
+	const std::string& file = textureName.empty() ? this->name : textureName;
+	this->texture->loadFromFile("res/img/Effects/" + file + ".png");
 	this->CreateSprite(texture);
 	this->createAnimationComponent(*texture);
 	this->animationComponent->addAnimation(this->name + "_animation", 4, start_frame_x, start_frame_y, frames_x, frames_y, width, height);
-
 }
 
 

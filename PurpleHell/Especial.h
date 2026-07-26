@@ -2,6 +2,7 @@
 #define	 ESPECIAL_H
 
 #include <iostream>
+#include <vector>
 #include "Entity.h"
 class Especial : public Entity
 
@@ -15,6 +16,7 @@ private:
 	std::string description;
 	std::string job;
 	int special = 0;
+	std::vector<sf::Vector2f> extraAOEPositions;
 	void specialInit();
 public:
 	Especial();
@@ -32,8 +34,10 @@ public:
 	void Special(Entity *entity);
 	void SetIsPlaying(bool value);
 	bool GetIsPlaying();
+	void addAOEPosition(float x, float y);
+	void render(sf::RenderTarget* target);
 	void updateAnimation(const float &dt);
-	void createAnimation(int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height, int offsetx, int offsety);
+	void createAnimation(int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height, int offsetx, int offsety, const std::string& textureName = "");
 	void animationDone();
 	void SetDescription(std::string text);
 	std::string GetDescription();
