@@ -1,4 +1,5 @@
 #include "BattleScene.h"
+#include "BinaryIO.h"
 #include <thread>
 
 
@@ -479,31 +480,36 @@ void BattleScene::battleSystemEnemy(const float& dt)
 
 void BattleScene::playerReward()
 {
-	std::fstream fsUnits("res/Player/Units.txt");
-	std::fstream fsInventory("res/Player/Inventory.txt");
-
 	if (!this->player->getClear()) {
+		// Herois iniciais (formato: name, job, hp, power, spell)
+		std::fstream fsUnits("res/Player/Units.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 		if (fsUnits.is_open())
 		{
-			if (fsUnits.good())
-			{
-				fsUnits << "knight 25 5 2" << std::endl;
-				fsUnits << "archer 35 6 2" << std::endl;
-				fsUnits << "slot 0 0 0";
-			}
-
+			bin::writeHeader(fsUnits);
+			bin::writeInt(fsUnits, 3);
+			bin::writeStr(fsUnits, "knight"); bin::writeStr(fsUnits, "knight");
+			bin::writeInt(fsUnits, 25); bin::writeInt(fsUnits, 5); bin::writeInt(fsUnits, 2);
+			bin::writeStr(fsUnits, "archer"); bin::writeStr(fsUnits, "archer");
+			bin::writeInt(fsUnits, 35); bin::writeInt(fsUnits, 6); bin::writeInt(fsUnits, 2);
+			bin::writeStr(fsUnits, "slot"); bin::writeStr(fsUnits, "slot");
+			bin::writeInt(fsUnits, 0); bin::writeInt(fsUnits, 0); bin::writeInt(fsUnits, 0);
 			fsUnits.close();
 		}
 
+		// Itens iniciais (formato: name, hp, power, type)
+		std::fstream fsInventory("res/Player/Inventory.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 		if (fsInventory.is_open())
 		{
-			if (fsInventory.good())
-			{
-				fsInventory << "potion 1 5 1" << std::endl;
-				fsInventory << "knife 1 5 2" << std::endl;
-				fsInventory << "axe 1 10 3" << std::endl;
-				fsInventory << "sword 1 15 4" << std::endl;
-				fsInventory << "magicAxe 1 20 5" << std::endl;
+			const char* names[5] = { "potion", "knife", "axe", "sword", "magicAxe" };
+			int powers[5] = { 5, 5, 10, 15, 20 };
+			int types[5] = { 1, 2, 3, 4, 5 };
+			bin::writeHeader(fsInventory);
+			bin::writeInt(fsInventory, 5);
+			for (int i = 0; i < 5; i++) {
+				bin::writeStr(fsInventory, names[i]);
+				bin::writeInt(fsInventory, 1);
+				bin::writeInt(fsInventory, powers[i]);
+				bin::writeInt(fsInventory, types[i]);
 			}
 			fsInventory.close();
 		}

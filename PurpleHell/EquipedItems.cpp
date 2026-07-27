@@ -1,10 +1,11 @@
 #include "EquipedItems.h"
+#include "BinaryIO.h"
 
 
 
 void EquipedItems::initEquipedItems()
 {
-	std::ifstream ifsEquipedItems("res/Player/equiped.txt");
+	std::ifstream ifsEquipedItems("res/Player/equiped.txt", std::ios::binary);
 	ArquivoEquiped(ifsEquipedItems, 0);
 }
 
@@ -137,22 +138,14 @@ bool EquipedItems::canEquip()
 void EquipedItems::save()
 {
 	std::fstream ofsEquiped;
-	ofsEquiped.open("res/Player/equiped.txt", std::ofstream::out | std::ofstream::trunc);
+	ofsEquiped.open("res/Player/equiped.txt", std::ios::out | std::ios::trunc | std::ios::binary);
+	bin::writeHeader(ofsEquiped);
+	bin::writeInt(ofsEquiped, this->maxItems);
 	for (int t = 0; t < this->maxItems; t++) {
-		if (t < this->maxItems - 1) {
-			ofsEquiped
-				<< this->items[t]->getName()
-				<< " " << this->items[t]->getHp()
-				<< " " << this->items[t]->getPower()
-				<< " " << this->items[t]->getSpecial() << std::endl;
-		}
-		else {
-			ofsEquiped
-				<< this->items[t]->getName()
-				<< " " << this->items[t]->getHp()
-				<< " " << this->items[t]->getPower()
-				<< " " << this->items[t]->getSpecial();
-		}
+		bin::writeStr(ofsEquiped, this->items[t]->getName());
+		bin::writeInt(ofsEquiped, this->items[t]->getHp());
+		bin::writeInt(ofsEquiped, this->items[t]->getPower());
+		bin::writeInt(ofsEquiped, this->items[t]->getSpecial());
 	}
 	ofsEquiped.close();
 }
@@ -170,25 +163,21 @@ int EquipedItems::getItemId()
 //Arquivos
 void EquipedItems::ArquivoEquiped(std::ifstream& ifsEquipedItems, int i)
 {
-	std::string name = " ";
-	int hp = 0, power = 0, type = 0;
+	if (!ifsEquipedItems.is_open()) return;
+	if (!bin::readHeader(ifsEquipedItems)) { ifsEquipedItems.close(); return; }
 
-	if (ifsEquipedItems.is_open())
-	{
-		if (!ifsEquipedItems.eof())
-		{
-			ifsEquipedItems >> name >> hp >> power >> type;
-			sf::Texture* tex = new sf::Texture();
-			tex->loadFromFile("res/img/items/" + name + ".png");
-			this->items[i] = (new Item(93 + (25 * i), 118, name, hp, power, type, tex));
-			i++;
-			ArquivoEquiped(ifsEquipedItems, i);
-			std::cout << name << hp << power << type << std::endl;
+	int count = bin::readInt(ifsEquipedItems);
+	for (int k = 0; k < count && i < this->maxItems; k++) {
+		std::string name = bin::readStr(ifsEquipedItems);
+		int hp = bin::readInt(ifsEquipedItems);
+		int power = bin::readInt(ifsEquipedItems);
+		int type = bin::readInt(ifsEquipedItems);
+		if (!ifsEquipedItems) break;
 
-
-		}
-		else {
-			ifsEquipedItems.close();
-		}
+		sf::Texture* tex = new sf::Texture();
+		tex->loadFromFile("res/img/items/" + name + ".png");
+		this->items[i] = (new Item(93 + (25 * i), 118, name, hp, power, type, tex));
+		i++;
 	}
+	ifsEquipedItems.close();
 }

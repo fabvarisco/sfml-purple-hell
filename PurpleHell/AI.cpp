@@ -1,14 +1,15 @@
 #include "AI.h"
+#include "BinaryIO.h"
 
 AI::AI()
 {
-	std::ifstream ifsEnemies("res/AI/0.txt");
+	std::ifstream ifsEnemies("res/AI/0.txt", std::ios::binary);
 	ArquivoEnemies(ifsEnemies, 0);
 }
 
 AI::AI(int i)
 {
-	std::ifstream ifsEnemies("res/AI/" + std::to_string(i) + ".txt");
+	std::ifstream ifsEnemies("res/AI/" + std::to_string(i) + ".txt", std::ios::binary);
 	ArquivoEnemies(ifsEnemies, 0);
 }
 
@@ -166,29 +167,24 @@ bool AI::enemyPlayed()
 //Arquivos
 void AI::ArquivoEnemies(std::ifstream& ifsEnemies, int i)
 {
-	std::string name = " ";
-	int hp = 0, power = 0;
+	if (!ifsEnemies.is_open()) return;
+	if (!bin::readHeader(ifsEnemies)) { ifsEnemies.close(); return; }
 
-	if (ifsEnemies.is_open())
-	{
+	int count = bin::readInt(ifsEnemies);
+	for (int k = 0; k < count && i < this->maxUnits; k++) {
+		std::string name = bin::readStr(ifsEnemies);
+		int hp = bin::readInt(ifsEnemies);
+		int power = bin::readInt(ifsEnemies);
+		if (!ifsEnemies) break;
 
-		if (!ifsEnemies.eof())
-		{
-
-			ifsEnemies >> name >> hp >> power;
-
-			if (name != " " && i < this->maxUnits) {
-				sf::Texture* tex;
-				tex = new sf::Texture();
-				tex->loadFromFile("res/img/AI/" + name + ".png");
-				this->team[i] = (new Enemy(0, 0, name, hp, power, tex));
-				i++;
-			}
-			ArquivoEnemies(ifsEnemies, i);
-		}
-		else {
-			ifsEnemies.close();
+		if (name != " ") {
+			sf::Texture* tex;
+			tex = new sf::Texture();
+			tex->loadFromFile("res/img/AI/" + name + ".png");
+			this->team[i] = (new Enemy(0, 0, name, hp, power, tex));
+			i++;
 		}
 	}
+	ifsEnemies.close();
 
 }

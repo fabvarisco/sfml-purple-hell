@@ -1,35 +1,29 @@
 #include "Inventory.h"
+#include "BinaryIO.h"
 
 void Inventory::initInventory()
 {
-	std::ifstream ifsInventory("res/Player/Inventory.txt");
-	std::string title = " ", name = " ";
-	int type = 0, hp = 0, power = 0, it = 0;
+	std::ifstream ifsInventory("res/Player/Inventory.txt", std::ios::binary);
 
+	if (!ifsInventory.is_open()) return;
+	if (!bin::readHeader(ifsInventory)) { ifsInventory.close(); return; }
 
-	if (ifsInventory.is_open())
-	{
-		//std::getline(ifsInventory, title);
-		while (ifsInventory.good())
-		{
-			ifsInventory >> name >> hp >> power >> type;
+	int count = bin::readInt(ifsInventory);
+	for (int it = 0; it < count && it < this->maxItems; it++) {
+		std::string name = bin::readStr(ifsInventory);
+		int hp = bin::readInt(ifsInventory);
+		int power = bin::readInt(ifsInventory);
+		int type = bin::readInt(ifsInventory);
+		if (!ifsInventory) break;
 
-			sf::Texture* tx;
-			tx = new sf::Texture();
-			tx->loadFromFile("res/img/items/" + name + ".png");
+		sf::Texture* tx;
+		tx = new sf::Texture();
+		tx->loadFromFile("res/img/items/" + name + ".png");
 
-			this->items[it] = new Item(93 + (25 * it), 23, name, hp, power, type, tx);
-
-			it++;
-
-			if (it == this->maxItems) {
-				break;
-			}
-
-		}
-
-		ifsInventory.close();
+		this->items[it] = new Item(93 + (25 * it), 23, name, hp, power, type, tx);
 	}
+
+	ifsInventory.close();
 }
 
 Inventory::Inventory()
@@ -118,14 +112,15 @@ void Inventory::setItem(Item* item)
 void Inventory::save()
 {
 	std::fstream ofsInventory;
-	ofsInventory.open("res/Player/Inventory.txt", std::ofstream::out | std::ofstream::trunc);
+	ofsInventory.open("res/Player/Inventory.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 
+	bin::writeHeader(ofsInventory);
+	bin::writeInt(ofsInventory, this->maxItems);
 	for (int i = 0; i < this->maxItems; i++) {
-		ofsInventory
-			<< this->items[i]->getName()
-			<< " " << this->items[i]->getHp()
-			<< " " << this->items[i]->getPower()
-			<< " " << this->items[i]->getSpecial() << std::endl;
+		bin::writeStr(ofsInventory, this->items[i]->getName());
+		bin::writeInt(ofsInventory, this->items[i]->getHp());
+		bin::writeInt(ofsInventory, this->items[i]->getPower());
+		bin::writeInt(ofsInventory, this->items[i]->getSpecial());
 	}
 	ofsInventory.close();
 }

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "BinaryIO.h"
 
 
 
@@ -20,12 +21,12 @@ Player::~Player()
 }
 void Player::initPlayerInfo()
 {
-	std::ifstream ifs("res/Player/Info.txt");
+	std::ifstream ifs("res/Player/Info.txt", std::ios::binary);
 	this->infoFile(ifs, 0);
 }
 void Player::initHeroes()
 {
-	std::ifstream ifsHeroes("res/Player/Team.txt");
+	std::ifstream ifsHeroes("res/Player/Team.txt", std::ios::binary);
 	this->heroesFile(ifsHeroes, 0);
 }
 
@@ -295,15 +296,16 @@ void Player::Save()
 {
 
 	std::fstream ofsTeam;
-	ofsTeam.open("res/Player/Team.txt", std::ofstream::out | std::ofstream::trunc);
+	ofsTeam.open("res/Player/Team.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 
+	bin::writeHeader(ofsTeam);
+	bin::writeInt(ofsTeam, this->maxUnits);
 	for (int i = 0; i < this->maxUnits; i++) {
-		ofsTeam
-			<< this->team[i]->getName()
-			<< " " << this->team[i]->GetJob()
-			<< " " << this->team[i]->getHp()
-			<< " " << this->team[i]->getPower()
-			<< " " << this->team[i]->getSpecial() << std::endl;
+		bin::writeStr(ofsTeam, this->team[i]->getName());
+		bin::writeStr(ofsTeam, this->team[i]->GetJob());
+		bin::writeInt(ofsTeam, this->team[i]->getHp());
+		bin::writeInt(ofsTeam, this->team[i]->getPower());
+		bin::writeInt(ofsTeam, this->team[i]->getSpecial());
 	}
 	ofsTeam.close();
 
@@ -344,68 +346,49 @@ int Player::UnitNumber(Entity* hero)
 
 void Player::heroesFile(std::ifstream& ifsHeroes, int i)
 {
-	std::string name = " ", job = " ";
-	int hp = 0, power = 0, spell = 0;
+	if (!ifsHeroes.is_open()) return;
+	if (!bin::readHeader(ifsHeroes)) { ifsHeroes.close(); return; }
 
-	if (ifsHeroes.is_open())
-	{
-		if (!ifsHeroes.eof())
-		{
-			ifsHeroes >> name >> job >> hp >> power >> spell;
+	int count = bin::readInt(ifsHeroes);
+	for (int k = 0; k < count && i < this->maxUnits; k++) {
+		std::string name = bin::readStr(ifsHeroes);
+		std::string job = bin::readStr(ifsHeroes);
+		int hp = bin::readInt(ifsHeroes);
+		int power = bin::readInt(ifsHeroes);
+		int spell = bin::readInt(ifsHeroes);
+		if (!ifsHeroes) break;
 
-			if (name != " " && i < this->maxUnits) {
-				sf::Texture* tex;
-				tex = new sf::Texture();
-				tex->loadFromFile("res/img/Player/" + job + ".png");
-				this->team[i] = (new Hero(0, 0, name, job, hp, power, spell, tex));
-				i++;
-			}
-			heroesFile(ifsHeroes, i);
-		}
-		else {
-			ifsHeroes.close();
+		if (name != " ") {
+			sf::Texture* tex;
+			tex = new sf::Texture();
+			tex->loadFromFile("res/img/Player/" + job + ".png");
+			this->team[i] = (new Hero(0, 0, name, job, hp, power, spell, tex));
+			i++;
 		}
 	}
+	ifsHeroes.close();
 }
 
 void Player::infoFile(std::ifstream& ifs, int i)
 {
-	std::string name = " ";
-	int value = 0;
+	if (!ifs.is_open()) return;
+	if (!bin::readHeader(ifs)) { ifs.close(); return; }
 
-	if (ifs.is_open())
-	{
-
-		if (!ifs.eof())
-		{
-			ifs >> name >> value;
-			if (name == "gold") {
-				this->gold = value;
-			}
-			else if (name == "run") {
-				this->run = value;
-			}
-			else if (name == "level") {
-				this->level = value;
-			}
-			i++;
-			infoFile(ifs, i);
-		}
-		else {
-			ifs.close();
-		}
-	}
+	this->gold = bin::readInt(ifs);
+	this->run = bin::readInt(ifs);
+	this->level = bin::readInt(ifs);
+	ifs.close();
 }
 
 void Player::SaveInfoFile()
 {
 	std::fstream ofs;
-	ofs.open("res/Player/Info.txt", std::ofstream::out | std::ofstream::trunc);
+	ofs.open("res/Player/Info.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 
-	ofs
-		<< "gold " << this->gold << std::endl
-		<< "run " << this->run << std::endl
-		<< "level " << this->level;
+	bin::writeHeader(ofs);
+	bin::writeInt(ofs, this->gold);
+	bin::writeInt(ofs, this->run);
+	bin::writeInt(ofs, this->level);
 
 	ofs.close();
 }

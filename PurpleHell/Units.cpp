@@ -1,9 +1,10 @@
 #include "Units.h"
+#include "BinaryIO.h"
 
 
 void Units::initUnits()
 {
-	std::ifstream ifsUnits("res/Player/Units.txt");
+	std::ifstream ifsUnits("res/Player/Units.txt", std::ios::binary);
 	this->ArquivoUnits(ifsUnits, 0);
 }
 
@@ -121,15 +122,16 @@ void Units::equipHero(Hero* hero)
 void Units::Save()
 {
 	std::fstream ofsHeroes;
-	ofsHeroes.open("res/Player/Units.txt", std::ofstream::out | std::ofstream::trunc);
+	ofsHeroes.open("res/Player/Units.txt", std::ios::out | std::ios::trunc | std::ios::binary);
 
+	bin::writeHeader(ofsHeroes);
+	bin::writeInt(ofsHeroes, this->maxUnitsInventory);
 	for (int i = 0; i < this->maxUnitsInventory; i++) {
-		ofsHeroes
-			<< this->heroes[i]->getName() 
-			<< " " << this->heroes[i]->GetJob()
-			<< " " << this->heroes[i]->getHp()
-			<< " " << this->heroes[i]->getPower()
-			<< " " << this->heroes[i]->getSpecial() << std::endl;
+		bin::writeStr(ofsHeroes, this->heroes[i]->getName());
+		bin::writeStr(ofsHeroes, this->heroes[i]->GetJob());
+		bin::writeInt(ofsHeroes, this->heroes[i]->getHp());
+		bin::writeInt(ofsHeroes, this->heroes[i]->getPower());
+		bin::writeInt(ofsHeroes, this->heroes[i]->getSpecial());
 	}
 	ofsHeroes.close();
 }
@@ -153,29 +155,26 @@ int Units::UnitNumber()
 //Arquivos
 void Units::ArquivoUnits(std::ifstream &ifsUnits, int i)
 {
-	std::string name = " ", job = " ";
-	int hp = 0, power = 0, spell = 0;
+	if (!ifsUnits.is_open()) return;
+	if (!bin::readHeader(ifsUnits)) { ifsUnits.close(); return; }
 
-	if (ifsUnits.is_open())
-	{
+	int count = bin::readInt(ifsUnits);
+	for (int k = 0; k < count && i < this->maxUnitsInventory; k++) {
+		std::string name = bin::readStr(ifsUnits);
+		std::string job = bin::readStr(ifsUnits);
+		int hp = bin::readInt(ifsUnits);
+		int power = bin::readInt(ifsUnits);
+		int spell = bin::readInt(ifsUnits);
+		if (!ifsUnits) break;
 
-		if (!ifsUnits.eof())
-		{
-
-			ifsUnits >> name >> job >> hp >> power >> spell;
-
-			if (name != " ") {
-				sf::Texture *tex;
-				tex = new sf::Texture();
-				tex->loadFromFile("res/img/Player/" + job + ".png");
-				this->heroes[i] = new Hero(93 + (25 * i), 23, name, job, hp, power, spell, tex);
-				i++;
-			}
-			ArquivoUnits(ifsUnits, i);
-		}
-		else {
-			ifsUnits.close();
+		if (name != " ") {
+			sf::Texture *tex;
+			tex = new sf::Texture();
+			tex->loadFromFile("res/img/Player/" + job + ".png");
+			this->heroes[i] = new Hero(93 + (25 * i), 23, name, job, hp, power, spell, tex);
+			i++;
 		}
 	}
+	ifsUnits.close();
 
 }
