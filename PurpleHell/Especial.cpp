@@ -15,7 +15,7 @@ void Especial::specialInit()
 			break;
 		case 2:
 			this->name = "Fireball";
-			this->description = "Deals damage to one enemy and burn it";
+			this->description = "Damage and burn one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
@@ -30,7 +30,7 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Steal";
-			this->description = "Deals damage to one enemy and steal gold";
+			this->description = "Damage one enemy, steal gold.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
@@ -50,7 +50,7 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Double slash";
-			this->description = "Deals double damage to one enemy.";
+			this->description = "Double damage to one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
@@ -60,7 +60,7 @@ void Especial::specialInit()
 			break;
 		case 3:
 			this->name = "Kick";
-			this->description = "Stun an enemy.";
+			this->description = "Stun one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
@@ -70,17 +70,17 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Scars slash";
-			this->description = "Deals x3 damage to one enemy.";
+			this->description = "x3 damage to one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:
 			this->name = "Drain Blood";
-			this->description = "Deals damage to one enemy with a poison knife.";
+			this->description = "Poison damage to one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
 			this->name = "Punch";
-			this->description = "Deals damage to one enemy.";
+			this->description = "Damage one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		}
@@ -95,7 +95,7 @@ void Especial::specialInit()
 			break;
 		case 2:
 			this->name = "Death Touch";
-			this->description = "Instant kill an enemy but you lost half of the life.";
+			this->description = "Instakill one enemy, lose half HP.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 3:
@@ -110,7 +110,7 @@ void Especial::specialInit()
 		{
 		case 1:
 			this->name = "Double slash";
-			this->description = "Deals double damage to one enemy.";
+			this->description = "Double damage to one enemy.";
 			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
 			break;
 		case 2:

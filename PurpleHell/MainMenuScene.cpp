@@ -1,4 +1,5 @@
 #include "MainMenuScene.h"
+#include "NewGame.h"
 
 
 
@@ -16,7 +17,7 @@ void MainMenuScene::initButtons()
 
 
 	//Map
-	this->buttonsMap["STARTGAME"] = (new Button(135, 80, 75, 20, &this->font, "Start Game", sf::Color::White, sf::Color::Black, sf::Color::Blue, texture1));
+	this->buttonsMap["STARTGAME"] = (new Button(135, 80, 75, 20, &this->font, "New Game", sf::Color::White, sf::Color::Black, sf::Color::Blue, texture1));
 	this->buttonsMap["QUIT"] = (new Button(135, 110, 75, 20, &this->font, "QUIT", sf::Color::White, sf::Color::Black, sf::Color::Blue, texture1));
 	this->buttonsMap["CREDITS"] = (new Button(135, 140, 75, 20, &this->font, "Credits", sf::Color::White, sf::Color::Black, sf::Color::Blue, texture1));
 
@@ -91,6 +92,7 @@ void MainMenuScene::updateButtons()
 	}*/
 
 	if (this->buttonsMap["STARTGAME"]->isPressed()) {
+		NewGame::resetSaveFiles();
 		this->scenes->push(new GameScene(this->window, this->scenes));
 	}
 

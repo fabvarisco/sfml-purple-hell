@@ -11,6 +11,8 @@ public:
 	void Update(sf::Vector2f mousePos, const float& dt);
 	Item * GetSelectedItem();
 	Hero * GetSelectedHero();
+	Hero * getHero(int i);
+	Item * getItem(int i);
 	void RemoveItem();
 	void Refresh();
 	~Shop();

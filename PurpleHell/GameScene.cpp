@@ -503,15 +503,20 @@ void GameScene::sellHero()
 void GameScene::showMenuInfo(sf::Text * text, Entity* entity,sf::Vector2f pos, sf::RenderTarget* target) {
 	target->draw(*text);
 	text->setPosition(pos);
-	text->setString(
+	std::string info =
 		entity->getName()
 		+ " / "
 		+ entity->GetJob()
 		+ " / "
 		+ "HP:" + std::to_string(entity->getHp())
 		+ " / "
-		+ "PW:" + std::to_string(entity->getPower())
-		+ "\n"
-		+ "Spell:" + "Thunder"/*this->units->getHero()->GetSpell()->getName()*/
-		+ ": deals damage\nto all enemies");
+		+ "PW:" + std::to_string(entity->getPower());
+
+	// So herois tem special; itens (ex.: no shop) passam pela mesma funcao.
+	Hero* hero = dynamic_cast<Hero*>(entity);
+	if (hero && hero->GetSpell()) {
+		info += "\nSpell: " + hero->GetSpell()->getName()
+			+ ": " + hero->GetSpell()->GetDescription();
+	}
+	text->setString(info);
 }

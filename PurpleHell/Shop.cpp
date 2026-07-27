@@ -69,6 +69,18 @@ Hero* Shop::GetSelectedHero()
 	return nullptr;
 }
 
+Hero* Shop::getHero(int i)
+{
+	if (i < 0 || i >= this->maxArrayValues) return nullptr;
+	return this->heroes[i];
+}
+
+Item* Shop::getItem(int i)
+{
+	if (i < 0 || i >= this->maxArrayValues) return nullptr;
+	return this->items[i];
+}
+
 void Shop::RemoveItem()
 {
 	Hero* hero = this->GetSelectedHero();
