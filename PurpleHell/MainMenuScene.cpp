@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "NewGame.h"
+#include "CreditsScene.h"
 
 
 
@@ -94,6 +95,14 @@ void MainMenuScene::updateButtons()
 	if (this->buttonsMap["STARTGAME"]->isPressed()) {
 		NewGame::resetSaveFiles();
 		this->scenes->push(new GameScene(this->window, this->scenes));
+	}
+
+	if (this->buttonsMap["CREDITS"]->isPressed()) {
+		this->scenes->push(new CreditsScene(this->window, this->scenes));
+	}
+
+	if (this->buttonsMap["QUIT"]->isPressed()) {
+		this->Exit();
 	}
 
 }
