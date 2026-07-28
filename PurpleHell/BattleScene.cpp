@@ -390,7 +390,13 @@ void BattleScene::enemyTurn()
 				return;
 			}
 
-			this->enemyAttack();
+			// 1 MP / uma vez por partida: 23% de chance de usar o special por turno.
+			if (current->CanUseEspecial() && (std::rand() % 100) < 23) {
+				this->enemySpecial();
+			}
+			else {
+				this->enemyAttack();
+			}
 		}
 	}
 
@@ -525,8 +531,7 @@ void BattleScene::enemyAttack()
 	if (!player) return;
 	Enemy* enemy = this->ais.front()->getTeam(this->enemyIndex);
 
-	std::srand(time(NULL));
-	int r = rand() % 100;
+	int r = std::rand() % 100;
 	if (r < 33) {
 		this->battleText(0, player, "MISS");
 		enemy->setPlayed(true);
@@ -537,6 +542,47 @@ void BattleScene::enemyAttack()
 		enemy->Action(player);
 		this->battleText(0, player, "- " + std::to_string(enemy->getPower()));
 	}
+	this->enemyIndex++;
+}
+
+void BattleScene::enemySpecial()
+{
+	Enemy* enemy = this->ais.front()->getTeam(this->enemyIndex);
+
+	if (enemy->getSpecial() == 1) {
+		// AOE: dano em todos os herois vivos.
+		bool first = true;
+		for (int i = 0; i < 3; i++) {
+			Hero* h = this->player->getHero(i);
+			if (h && h->getHp() > 0) {
+				if (first) {
+					enemy->Special(h);
+					this->battleText(0, h, "- " + std::to_string(enemy->getPower()));
+					first = false;
+				}
+				else {
+					h->setDamage(enemy->getPower());
+					enemy->GetSpell()->addAOEPosition(
+						h->getPosition().x,
+						h->getPosition().y + enemy->GetSpell()->GetOffsetY()
+					);
+				}
+			}
+		}
+	}
+	else if (enemy->getSpecial() == 2) {
+		// Cura: o inimigo se cura.
+		enemy->Special(enemy);
+		this->battleText(1, enemy, "+ " + std::to_string(enemy->getPower() * 2));
+	}
+	else {
+		// Dano alto em alvo unico.
+		Hero* hero = this->player->getRandomHero();
+		if (!hero) { this->enemyIndex++; return; }
+		enemy->Special(hero);
+		this->battleText(0, hero, "- " + std::to_string(enemy->getPower() * 3));
+	}
+
 	this->enemyIndex++;
 }
 

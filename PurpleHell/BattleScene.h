@@ -62,6 +62,7 @@ protected:
 	void battleSystemEnemy(const float& dt);
 	void playerReward();
 	void enemyAttack();
+	void enemySpecial();
 	void playerAttack();
 	void playerSpecial();
 
