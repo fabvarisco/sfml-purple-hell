@@ -4,13 +4,13 @@
 AI::AI()
 {
 	std::ifstream ifsEnemies("res/AI/0.txt", std::ios::binary);
-	ArquivoEnemies(ifsEnemies, 0);
+	ArquivoEnemies(ifsEnemies, 0, 1);
 }
 
-AI::AI(int i)
+AI::AI(int i, int level)
 {
 	std::ifstream ifsEnemies("res/AI/" + std::to_string(i) + ".txt", std::ios::binary);
-	ArquivoEnemies(ifsEnemies, 0);
+	ArquivoEnemies(ifsEnemies, 0, level);
 }
 
 AI::~AI()
@@ -164,11 +164,13 @@ bool AI::enemyPlayed()
 	return true;
 }
 
-//Arquivos
-void AI::ArquivoEnemies(std::ifstream& ifsEnemies, int i)
+//files
+void AI::ArquivoEnemies(std::ifstream& ifsEnemies, int i, int level)
 {
 	if (!ifsEnemies.is_open()) return;
 	if (!bin::readHeader(ifsEnemies)) { ifsEnemies.close(); return; }
+
+	if (level < 1) level = 1;
 
 	int count = bin::readInt(ifsEnemies);
 	for (int k = 0; k < count && i < this->maxUnits; k++) {
@@ -176,6 +178,9 @@ void AI::ArquivoEnemies(std::ifstream& ifsEnemies, int i)
 		int hp = bin::readInt(ifsEnemies);
 		int power = bin::readInt(ifsEnemies);
 		if (!ifsEnemies) break;
+
+		hp = hp * (level + 1) / 2;
+		power = power * (level + 1) / 2;
 
 		if (name != " ") {
 			sf::Texture* tex;

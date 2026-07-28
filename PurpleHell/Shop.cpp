@@ -147,7 +147,7 @@ void Shop::generateItems()
 		std::random_device rd;
 		std::mt19937 generator(rd());
 
-		std::uniform_int_distribution<int> rngName(0, 3);
+		std::uniform_int_distribution<int> rngName(0, 4);
 		std::uniform_int_distribution<int> rngPower(1, 300);
 
 		int name = rngName(generator);
@@ -155,6 +155,6 @@ void Shop::generateItems()
 
 		sf::Texture* tex = new sf::Texture();
 		tex->loadFromFile("res/img/items/" + itemsArray[name] + ".png");
-		this->items[i] = new Item(0.0, 0.0, itemsArray[name], 1, power, name, tex);
+		this->items[i] = new Item(0.0, 0.0, itemsArray[name], 1, power, name + 1, tex);
 	}
 }

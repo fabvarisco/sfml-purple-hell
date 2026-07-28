@@ -91,10 +91,10 @@ void BattleScene::initPlayer()
 
 void BattleScene::initAI() {
 
-	ais.push(new AI(0));
-	ais.push(new AI(1));
-	ais.push(new AI(2));
-	ais.push(new AI(3));
+	ais.push(new AI(0, this->wave));
+	ais.push(new AI(1, this->wave));
+	ais.push(new AI(2, this->wave));
+	ais.push(new AI(3, this->wave));
 	ais.front()->battlePosition();
 }
 

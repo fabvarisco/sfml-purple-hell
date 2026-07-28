@@ -12,12 +12,12 @@ private:
 	//sf::Texture* t;
 
 	Enemy* team[maxUnits] = {};
-	//Arquivos
-	void ArquivoEnemies(std::ifstream &, int);
+	//Files
+	void ArquivoEnemies(std::ifstream &, int, int level);
 
 public:
 	AI();
-	AI(int i);
+	AI(int i, int level = 1);
 	virtual ~AI();
 	void renderEnemies(sf::RenderTarget* target);
 	void updateEnemies(sf::Vector2f mousePos, const float &dt);

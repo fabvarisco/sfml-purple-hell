@@ -16,12 +16,12 @@ void Especial::specialInit()
 		case 2:
 			this->name = "Fireball";
 			this->description = "Damage and burn one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Fire0");
 			break;
 		case 3:
 			this->name = "Waterfall";
 			this->description = "Deals extra damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 5, 0, 32, 48, 0, -36, "Water");
 			break;
 		}
 	}
@@ -31,17 +31,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Steal";
 			this->description = "Damage one enemy, steal gold.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash2");
 			break;
 		case 2:
 			this->name = "Poison Dagger";
 			this->description = "Deals damage to one enemy with a poison knife";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Poison");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun an enemy";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash");
 			break;
 		}
 	}
@@ -51,17 +51,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Double slash";
 			this->description = "Double damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash");
 			break;
 		case 2:
 			this->name = "Rage";
 			this->description = "Deals x4 more damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Fire1");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash2");
 			break;
 		}
 	}
@@ -71,17 +71,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Scars slash";
 			this->description = "x3 damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash2");
 			break;
 		case 2:
 			this->name = "Drain Blood";
 			this->description = "Poison damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Poison");
 			break;
 		case 3:
 			this->name = "Punch";
 			this->description = "Damage one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash");
 			break;
 		}
 	}
@@ -91,17 +91,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Drain Life";
 			this->description = "Deals damage to one enemy and heal half of the damage.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 5, 0, 32, 48, 0, -36, "Water");
 			break;
 		case 2:
 			this->name = "Death Touch";
 			this->description = "Instakill one enemy, lose half HP.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Poison");
 			break;
 		case 3:
 			this->name = "Curse";
 			this->description = "Deals curse damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Fire2");
 			break;
 		}
 	}
@@ -111,17 +111,17 @@ void Especial::specialInit()
 		case 1:
 			this->name = "Double slash";
 			this->description = "Double damage to one enemy.";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash");
 			break;
 		case 2:
 			this->name = "Poison Dagger";
 			this->description = "Deals damage to one enemy with a poison knife";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 4, 0, 32, 32, 0, -24, "Poison");
 			break;
 		case 3:
 			this->name = "Kick";
 			this->description = "Stun an enemy";
-			this->createAnimation(0, 0, 4, 0, 16, 64, 0, -48, "thunder");
+			this->createAnimation(0, 0, 7, 0, 16, 16, 0, -12, "slash2");
 			break;
 		}
 	}
